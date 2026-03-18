@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>القرآن الكريم — Quran App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Scheherazade+New:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/thetruetruth/quran-data-kfgqpc@main/css/kfgqpc.font.css">
+<style>
+:root{--bg:#0b1120;--bg2:#111d33;--card:#162036;--cardh:#1c2a48;--act:#193a62;--g:#c9a84c;--g2:#a88a3a;--gg:rgba(201,168,76,.22);--gb:rgba(201,168,76,.1);--t:#e8e0d0;--t2:#7e8fa8;--ar:#f5efe3;--ur:#c8bda8;--bd:rgba(201,168,76,.13);--bd2:rgba(201,168,76,.35);--red:#ef5350;--grn:#4ade80}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t);min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:#2a3550;border-radius:3px}
+a{color:var(--g);text-decoration:none}
+.page{display:none;min-height:100vh}.page.active{display:block}
+.nav{position:sticky;top:0;z-index:100;background:rgba(11,17,32,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--bd);padding:.55rem 1rem}
+.nav-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.nav-logo{display:flex;align-items:center;gap:.5rem;cursor:pointer}
+.nav-ico{width:34px;height:34px;background:linear-gradient(135deg,var(--g),var(--g2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--bg);font-weight:700;font-family:'Scheherazade New','Amiri Quran',serif}
+.nav-t{font-size:1rem;font-weight:600;color:var(--g)}
+.nav-back{display:flex;align-items:center;gap:.4rem;padding:.4rem .8rem;background:var(--card);border:1px solid var(--bd);border-radius:7px;color:var(--t);font-family:'Outfit',sans-serif;font-size:.78rem;cursor:pointer;transition:all .2s}
+.nav-back:hover{border-color:var(--g);color:var(--g)}
+.nav-back svg{width:16px;height:16px}
+.home-hero{text-align:center;padding:3rem 1.5rem 2rem;position:relative}
+.home-hero::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,.06),transparent 70%);pointer-events:none}
+.home-bsm{font-family:'Scheherazade New','Amiri Quran',serif;font-size:2.5rem;color:var(--g);line-height:2;margin-bottom:.3rem}
+.home-sub{font-size:.85rem;color:var(--t2);max-width:400px;margin:0 auto;line-height:1.6}
+.home-grid{max-width:900px;margin:1.5rem auto 3rem;padding:0 1rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+.hcard{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:1.5rem;cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
+.hcard:hover{border-color:var(--bd2);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
+.hcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--g),var(--g2));opacity:0;transition:opacity .25s}
+.hcard:hover::before{opacity:1}
+.hcard-ico{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1rem}
+.hcard-ico.q{background:rgba(201,168,76,.12);color:var(--g)}
+.hcard-ico.s{background:rgba(74,222,128,.1);color:var(--grn)}
+.hcard-ico.d{background:rgba(168,138,58,.12);color:#d4b896}
+.hcard-ico.qb{background:rgba(96,165,250,.1);color:#60a5fa}
+.hcard-ico.n{background:rgba(251,191,36,.1);color:#fbbf24}
+.hcard h3{font-size:1rem;font-weight:600;color:var(--t);margin-bottom:.35rem}
+.hcard p{font-size:.78rem;color:var(--t2);line-height:1.5}
+.hcard-ar{font-family:'Scheherazade New','Amiri Quran',serif;font-size:.9rem;color:var(--g);margin-top:.5rem;opacity:.7}
+.fq-top{display:flex;align-items:center;justify-content:space-between;padding:.8rem 1rem;border-bottom:1px solid var(--bd);flex-wrap:wrap;gap:.5rem}
+.fq-pnav{display:flex;align-items:center;gap:.5rem}
+.fq-pbtn{padding:.4rem .8rem;background:var(--card);border:1px solid var(--bd);border-radius:6px;color:var(--t);font-family:'Outfit',sans-serif;font-size:.78rem;cursor:pointer;transition:all .2s}
+.fq-pbtn:hover{border-color:var(--g);color:var(--g)}
+.fq-pbtn:disabled{opacity:.3;cursor:default}
+.fq-pnum{font-size:.8rem;color:var(--t2);min-width:90px;text-align:center}
+.fq-qari{display:flex;align-items:center;gap:.5rem}
+.fq-qari label{font-size:.68rem;color:var(--t2);text-transform:uppercase;letter-spacing:.05em}
+.fq-body{max-width:900px;margin:0 auto;padding:1.5rem 1rem;padding-bottom:100px}
+.sv-lay{display:grid;grid-template-columns:280px 1fr;min-height:calc(100vh - 50px)}
+.sv-sb{border-right:1px solid var(--bd);background:rgba(19,26,43,.5);display:flex;flex-direction:column;height:calc(100vh - 50px);position:sticky;top:50px}
+.sv-sb-top{padding:.7rem .8rem;border-bottom:1px solid var(--bd)}
+.sv-search{position:relative}
+.sv-search input{width:100%;background:var(--card);border:1px solid var(--bd);border-radius:6px;padding:.45rem .6rem .45rem 1.8rem;color:var(--t);font-family:'Outfit',sans-serif;font-size:.78rem;outline:none}
+.sv-search input::placeholder{color:var(--t2)}
+.sv-search input:focus{border-color:var(--g)}
+.sv-search svg{position:absolute;left:.5rem;top:50%;transform:translateY(-50%);color:var(--t2);width:13px;height:13px}
+.sv-list{flex:1;overflow-y:auto;padding:.3rem}
+.si{display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:.5rem;padding:.5rem .55rem;border-radius:6px;cursor:pointer;transition:all .15s;border:1px solid transparent}
+.si:hover{background:var(--cardh);border-color:var(--bd)}
+.si.act{background:var(--act);border-color:var(--bd2)}
+.si-n{width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:600;color:var(--g);background:rgba(201,168,76,.08);border-radius:6px;transform:rotate(45deg)}
+.si-n span{transform:rotate(-45deg)}
+.si-i h3{font-size:.76rem;font-weight:500;margin-bottom:.05rem}
+.si-i p{font-size:.62rem;color:var(--t2)}
+.si-a{font-family:'Scheherazade New','Amiri Quran',serif;font-size:.95rem;color:var(--g)}
+.sv-mc{padding:1.2rem;padding-bottom:100px}
+.sh{text-align:center;padding:1.2rem .5rem;margin-bottom:1rem}
+.sh::after{content:'';display:block;width:150px;height:1px;background:linear-gradient(90deg,transparent,var(--g),transparent);margin:1rem auto 0}
+.sh-ar{font-family:'Scheherazade New','Amiri Quran',serif;font-size:2rem;color:var(--g);line-height:1.8}
+.sh-en{font-size:.85rem;color:var(--t2);margin-bottom:.3rem}
+.sh-m{font-size:.65rem;color:var(--t2);display:flex;align-items:center;justify-content:center;gap:.6rem}
+.bsm{text-align:center;font-family:'hafs18','KFGQPC HAFS Uthmanic Script','Scheherazade New','Amiri Quran',serif;font-size:1.8rem;color:var(--ar);padding:1rem;margin-bottom:1rem;background:var(--gb);border-radius:9px;border:1px solid var(--bd);line-height:2.4;word-spacing:4px}
+.pab{display:flex;align-items:center;justify-content:center;gap:.6rem;margin-bottom:1rem;padding:.55rem;background:var(--card);border-radius:8px;border:1px solid var(--bd)}
+.pa-btn{display:flex;align-items:center;gap:.35rem;padding:.45rem 1rem;background:var(--g);color:var(--bg);border:none;border-radius:6px;font-family:'Outfit',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s}
+.pa-btn:hover{background:#d4b356}
+.pa-btn svg{width:14px;height:14px}
+.st-btn{display:flex;align-items:center;gap:.35rem;padding:.45rem .8rem;background:rgba(239,83,80,.12);color:var(--red);border:1px solid rgba(239,83,80,.2);border-radius:6px;font-family:'Outfit',sans-serif;font-size:.78rem;cursor:pointer}
+.v{padding:.9rem 1rem;margin-bottom:.5rem;border-radius:9px;border:1px solid transparent;transition:all .2s}
+.v:hover{background:rgba(22,32,54,.6);border-color:var(--bd)}
+.v.pl{background:var(--gb);border-color:var(--bd2);box-shadow:0 0 20px rgba(201,168,76,.06)}
+.v.pl .v-num{background:var(--g);color:var(--bg)}
+.v-top{display:flex;align-items:flex-start;justify-content:space-between;gap:.6rem;margin-bottom:.5rem}
+.v-num{min-width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:600;color:var(--g);background:rgba(201,168,76,.1);border-radius:50%;flex-shrink:0;transition:all .2s}
+.v-pb{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.1);border:1px solid var(--bd);border-radius:50%;cursor:pointer;color:var(--g);transition:all .2s;flex-shrink:0}
+.v-pb:hover{background:var(--g);color:var(--bg)}
+.v-pb svg{width:12px;height:12px}
+.atxt{font-family:'hafs18','KFGQPC HAFS Uthmanic Script','Scheherazade New','Amiri Quran',serif;font-size:1.65rem;line-height:2.6;color:var(--ar);text-align:right;direction:rtl;margin-bottom:.5rem;word-spacing:4px}
+.utxt{font-family:'Noto Nastaliq Urdu',serif;font-size:1rem;line-height:2.1;color:var(--ur);text-align:right;direction:rtl;padding-top:.4rem;border-top:1px solid rgba(201,168,76,.06);opacity:.85}
+.duas-wrap{max-width:800px;margin:0 auto;padding:1.5rem 1rem 3rem}
+.duas-title{text-align:center;font-family:'Scheherazade New','Amiri Quran',serif;font-size:1.8rem;color:var(--g);margin-bottom:.3rem}
+.duas-sub{text-align:center;font-size:.8rem;color:var(--t2);margin-bottom:1.5rem}
+.dua-card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:1.2rem;margin-bottom:.8rem;transition:border-color .2s}
+.dua-card:hover{border-color:var(--bd2)}
+.dua-card.dua-playing{border-color:var(--g);background:var(--gb)}
+.dua-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem}
+.dua-label{font-size:.72rem;color:var(--g);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:0}
+.dua-play{width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:rgba(201,168,76,.1);border:1px solid var(--bd);border-radius:50%;cursor:pointer;color:var(--g);transition:all .2s;flex-shrink:0}
+.dua-play:hover{background:var(--g);color:var(--bg);transform:scale(1.08)}
+.dua-play.speaking{background:var(--g);color:var(--bg);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.dua-play svg{width:13px;height:13px}
+.dua-ar{font-family:'Scheherazade New','Amiri Quran',serif;font-size:1.5rem;line-height:2.4;color:var(--ar);text-align:right;direction:rtl;margin-bottom:.5rem}
+.dua-ur{font-family:'Noto Nastaliq Urdu',serif;font-size:.95rem;line-height:2;color:var(--ur);text-align:right;direction:rtl;margin-bottom:.5rem;padding-bottom:.5rem;border-bottom:1px solid var(--bd)}
+.dua-en{font-size:.8rem;color:var(--t2);line-height:1.6}
+.dua-count{font-size:.7rem;color:var(--t2);margin-top:.4rem;display:flex;align-items:center;gap:.4rem}
+.dua-count span{background:rgba(201,168,76,.1);color:var(--g);padding:.15rem .5rem;border-radius:4px;font-weight:600}
+.azk-tabs{display:flex;gap:.4rem;padding:.8rem 1rem;overflow-x:auto;border-bottom:1px solid var(--bd);flex-wrap:nowrap}
+.azk-tab{padding:.4rem .9rem;background:var(--card);border:1px solid var(--bd);border-radius:20px;font-family:'Outfit',sans-serif;font-size:.75rem;color:var(--t2);cursor:pointer;white-space:nowrap;transition:all .2s}
+.azk-tab.active{background:var(--g);color:var(--bg);border-color:var(--g);font-weight:600}
+.azk-tab:hover{border-color:var(--bd2)}
+.azk-body{max-width:800px;margin:0 auto;padding:1rem 1rem 3rem}
+.qibla-wrap{max-width:500px;margin:0 auto;padding:2rem 1rem;text-align:center}
+.qibla-title{font-family:'Scheherazade New','Amiri Quran',serif;font-size:1.8rem;color:var(--g);margin-bottom:.5rem}
+.qibla-sub{font-size:.8rem;color:var(--t2);margin-bottom:2rem}
+.qibla-compass{width:260px;height:260px;margin:0 auto 1.5rem;position:relative;border-radius:50%;background:var(--card);border:2px solid var(--bd);overflow:hidden}
+.qibla-dial{position:absolute;inset:0;border-radius:50%;transition:transform .15s linear}
+.qibla-arrow{position:absolute;top:50%;left:50%;width:4px;height:110px;background:var(--g);border-radius:2px;transform-origin:bottom center;transform:translate(-50%,-100%) rotate(0deg);transition:transform .3s ease;z-index:3}
+.qibla-arrow::after{content:'';position:absolute;top:-8px;left:-8px;width:20px;height:20px;background:var(--g);clip-path:polygon(50% 0%,0% 100%,100% 100%)}
+.qibla-center{position:absolute;top:50%;left:50%;width:16px;height:16px;background:var(--bg);border:2px solid var(--g);border-radius:50%;transform:translate(-50%,-50%);z-index:4}
+.qibla-n{position:absolute;font-size:.75rem;font-weight:700;color:var(--red)}
+.qibla-deg{font-size:1.5rem;font-weight:600;color:var(--g);margin-bottom:.3rem}
+.qibla-info{font-size:.8rem;color:var(--t2)}
+.qibla-btn{margin-top:1.5rem;padding:.6rem 1.5rem;background:var(--g);color:var(--bg);border:none;border-radius:8px;font-family:'Outfit',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer}
+.namaz-wrap{max-width:600px;margin:0 auto;padding:1.5rem 1rem 3rem}
+.namaz-title{text-align:center;font-family:'Scheherazade New','Amiri Quran',serif;font-size:1.8rem;color:var(--g);margin-bottom:.3rem}
+.namaz-sub{text-align:center;font-size:.8rem;color:var(--t2);margin-bottom:.5rem}
+.namaz-loc{text-align:center;font-size:.72rem;color:var(--t2);margin-bottom:1.5rem}
+.namaz-grid{display:grid;gap:.6rem}
+.ncard{display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:1rem 1.2rem}
+.ncard.active{border-color:var(--g);background:var(--gb)}
+.ncard-name{font-size:.9rem;font-weight:500}
+.ncard-ar{font-family:'Scheherazade New','Amiri Quran',serif;font-size:.8rem;color:var(--g);margin-top:.15rem}
+.ncard-time{font-size:1.2rem;font-weight:600;color:var(--g);font-variant-numeric:tabular-nums}
+.namaz-btn{display:block;margin:1.5rem auto 0;padding:.6rem 1.5rem;background:var(--g);color:var(--bg);border:none;border-radius:8px;font-family:'Outfit',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer}
+.pb{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(17,29,51,.97);backdrop-filter:blur(16px);border-top:1px solid var(--bd);transform:translateY(100%);transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.pb.vis{transform:translateY(0)}
+.pb-prog{width:100%;height:3px;background:rgba(201,168,76,.1);cursor:pointer}
+.pb-fill{height:100%;background:var(--g);width:0%}
+.pb-in{max-width:1200px;margin:0 auto;padding:.5rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.pb-info{min-width:0}
+.pb-sn{font-size:.78rem;font-weight:500;white-space:nowrap}
+.pb-vn{font-size:.65rem;color:var(--t2)}
+.pb-ctrls{display:flex;align-items:center;gap:.4rem}
+.cb{width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:none;border:none;color:var(--t2);cursor:pointer;border-radius:50%;transition:all .2s}
+.cb:hover{color:var(--t);background:rgba(255,255,255,.05)}
+.cb svg{width:15px;height:15px}
+.cb.pp{width:42px;height:42px;background:var(--g);color:var(--bg)}
+.cb.pp:hover{transform:scale(1.05)}
+.cb.pp svg{width:19px;height:19px}
+.pb-r{display:flex;align-items:center;gap:.6rem}
+.pb-t{font-size:.68rem;color:var(--t2);font-variant-numeric:tabular-nums}
+.cb.rp.on{color:var(--g)}
+.ld{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem;gap:1rem}
+.spin{width:34px;height:34px;border:3px solid var(--bd);border-top-color:var(--g);border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.ld-t{font-size:.82rem;color:var(--t2)}
+.err{background:rgba(239,83,80,.08);border:1px solid rgba(239,83,80,.2);color:var(--red);padding:1rem;border-radius:8px;text-align:center;font-size:.8rem;line-height:1.7}
+.qsel{background:var(--card);color:var(--t);border:1px solid var(--bd);border-radius:6px;padding:.4rem 1.6rem .4rem .5rem;font-family:'Outfit',sans-serif;font-size:.75rem;cursor:pointer;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%237e8fa8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .4rem center}
+.sv-mt{width:36px;height:36px;background:none;border:1px solid var(--bd);border-radius:6px;color:var(--t);cursor:pointer;display:none;align-items:center;justify-content:center}
+.sv-mt svg{width:16px;height:16px}
+.sv-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:49}
+.sv-ov.open{display:block}
+@media(max-width:700px){
+  .home-grid{grid-template-columns:1fr}
+  .sv-lay{grid-template-columns:1fr}
+  .sv-sb{position:fixed;left:0;top:50px;bottom:0;width:270px;z-index:50;transform:translateX(-100%);transition:transform .3s;background:var(--bg2)}
+  .sv-sb.open{transform:translateX(0)}
+  .sv-mt{display:flex!important}
+  .sv-mc{padding:.8rem;padding-bottom:100px}
+  .atxt{font-size:1.3rem}
+  .qibla-compass{width:220px;height:220px}
+  .qibla-arrow{height:90px}
+  .fq-top{flex-direction:column;align-items:stretch}
+}
+@media(min-width:701px){.sv-mt{display:none!important}.sv-ov{display:none!important}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hcard{animation:fadeUp .5s ease both}
+.hcard:nth-child(2){animation-delay:.08s}
+.hcard:nth-child(3){animation-delay:.16s}
+.hcard:nth-child(4){animation-delay:.24s}
+.hcard:nth-child(5){animation-delay:.32s}
+.hcard:nth-child(6){animation-delay:.40s}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="nav-in">
+  <div class="nav-logo" id="navHome"><div class="nav-ico">ق</div><div class="nav-t">Quran App</div></div>
+  <button class="nav-back" id="backBtn" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg> Home</button>
+</div></nav>
+
+<div class="page active" id="pg-home">
+  <div class="home-hero">
+    <div class="home-bsm">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</div>
+    <div class="home-sub">Read, listen & explore the Holy Quran with Urdu translation, Masnoon Duas, Qibla direction & prayer times</div>
+  </div>
+  <div class="home-grid" id="homeGrid"></div>
+</div>
+
+<div class="page" id="pg-quran">
+  <div class="fq-top">
+    <div class="fq-pnav">
+      <button class="fq-pbtn" id="fqPrev">◀ Prev</button>
+      <div class="fq-pnum" id="fqPageNum">Page 1 / 604</div>
+      <button class="fq-pbtn" id="fqNext">Next ▶</button>
+      <input type="number" min="1" max="604" value="1" id="fqGoPage" style="width:55px;background:var(--card);border:1px solid var(--bd);border-radius:5px;color:var(--t);padding:.3rem;font-size:.75rem;font-family:'Outfit';text-align:center;outline:none">
+    </div>
+    <div class="fq-qari"><label>Qari</label>
+      <select class="qsel" id="fqQari">
+        <option value="ar.alafasy">Mishary Alafasy</option>
+        <option value="ar.abdurrahmaansudais">As-Sudais</option>
+        <option value="ar.abdulsamad">Abdul Samad</option>
+        <option value="ar.husary">Al-Husary</option>
+        <option value="ar.minshawi">El-Minshawi</option>
+        <option value="ar.ahmedajamy">Al-Ajamy</option>
+      </select>
+    </div>
+  </div>
+  <div class="fq-body" id="fqBody"><div class="ld"><div class="spin"></div><div class="ld-t">Loading...</div></div></div>
+</div>
+
+<div class="page" id="pg-surah">
+  <div class="sv-ov" id="svOv"></div>
+  <div class="sv-lay">
+    <aside class="sv-sb" id="svSb">
+      <div class="sv-sb-top"><div class="sv-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="svSearch" placeholder="Search surah...">
+      </div></div>
+      <div class="sv-list" id="svList"></div>
+    </aside>
+    <main class="sv-mc" id="svMc">
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:50vh;text-align:center;gap:.6rem">
+        <div style="font-size:3rem">﷽</div>
+        <div style="font-family:'Scheherazade New','Amiri Quran',serif;font-size:2rem;color:var(--g)">بِسْمِ ٱللَّهِ</div>
+        <div style="color:var(--t2);font-size:.82rem;max-width:350px">Select a Surah to read with Urdu translation</div>
+        <button class="sv-mt" id="svMenuBtn" style="margin-top:1rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="page" id="pg-duas"><div class="duas-wrap" id="duasWrap"></div></div>
+<div class="page" id="pg-qibla">
+  <div class="qibla-wrap">
+    <div class="qibla-title">قبلہ کی سمت</div>
+    <div class="qibla-sub">Find the direction of the Holy Kaaba</div>
+    <div class="qibla-compass" id="qiblaComp">
+      <div class="qibla-dial" id="qiblaDial">
+        <div class="qibla-n" style="top:8px;left:50%;transform:translateX(-50%)">N</div>
+        <div class="qibla-n" style="bottom:8px;left:50%;transform:translateX(-50%);color:var(--t2)">S</div>
+        <div class="qibla-n" style="top:50%;right:8px;transform:translateY(-50%);color:var(--t2)">E</div>
+        <div class="qibla-n" style="top:50%;left:8px;transform:translateY(-50%);color:var(--t2)">W</div>
+      </div>
+      <div class="qibla-arrow" id="qiblaArrow"></div>
+      <div class="qibla-center"></div>
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:.6rem;color:var(--g);margin-top:22px;white-space:nowrap;font-weight:600">KAABA</div>
+    </div>
+    <div class="qibla-deg" id="qiblaDeg">—°</div>
+    <div class="qibla-info" id="qiblaInfo">Tap below to find Qibla direction</div>
+    <button class="qibla-btn" id="qiblaBtn">Allow Location & Compass</button>
+  </div>
+</div>
+<div class="page" id="pg-namaz">
+  <div class="namaz-wrap">
+    <div class="namaz-title">نماز کے اوقات</div>
+    <div class="namaz-sub">Prayer Times for Your Location</div>
+    <div class="namaz-loc" id="namazLoc">Tap below to detect your location</div>
+    <div class="namaz-grid" id="namazGrid"></div>
+    <button class="namaz-btn" id="namazBtn">Allow Location & Get Times</button>
+  </div>
+</div>
+
+<div class="page" id="pg-azkar">
+  <div class="azk-tabs" id="azkTabs"></div>
+  <div class="azk-body" id="azkBody"></div>
+</div>
+
+<div class="pb" id="pbar">
+  <div class="pb-prog" id="progBar"><div class="pb-fill" id="progFill"></div></div>
+  <div class="pb-in">
+    <div class="pb-info"><div class="pb-sn" id="pSurah">—</div><div class="pb-vn" id="pVerse">—</div></div>
+    <div class="pb-ctrls">
+      <button class="cb" id="prevBtn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg></button>
+      <button class="cb pp" id="ppBtn"><svg viewBox="0 0 24 24" fill="currentColor" id="ppIco"><polygon points="5,3 19,12 5,21"/></svg></button>
+      <button class="cb" id="nextBtn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg></button>
+    </div>
+    <div class="pb-r">
+      <button class="cb rp" id="rpBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></button>
+      <span class="pb-t" id="pTime">0:00</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+var API='https://api.alquran.cloud/v1';
+var $=function(id){return document.getElementById(id)};
+var SURAHS=[{n:1,en:"Al-Fatihah",ar:"الفاتحة",ay:7,t:"Meccan"},{n:2,en:"Al-Baqarah",ar:"البقرة",ay:286,t:"Medinan"},{n:3,en:"Aal-E-Imran",ar:"آل عمران",ay:200,t:"Medinan"},{n:4,en:"An-Nisa",ar:"النساء",ay:176,t:"Medinan"},{n:5,en:"Al-Ma'idah",ar:"المائدة",ay:120,t:"Medinan"},{n:6,en:"Al-An'am",ar:"الأنعام",ay:165,t:"Meccan"},{n:7,en:"Al-A'raf",ar:"الأعراف",ay:206,t:"Meccan"},{n:8,en:"Al-Anfal",ar:"الأنفال",ay:75,t:"Medinan"},{n:9,en:"At-Tawbah",ar:"التوبة",ay:129,t:"Medinan"},{n:10,en:"Yunus",ar:"يونس",ay:109,t:"Meccan"},{n:11,en:"Hud",ar:"هود",ay:123,t:"Meccan"},{n:12,en:"Yusuf",ar:"يوسف",ay:111,t:"Meccan"},{n:13,en:"Ar-Ra'd",ar:"الرعد",ay:43,t:"Medinan"},{n:14,en:"Ibrahim",ar:"ابراهيم",ay:52,t:"Meccan"},{n:15,en:"Al-Hijr",ar:"الحجر",ay:99,t:"Meccan"},{n:16,en:"An-Nahl",ar:"النحل",ay:128,t:"Meccan"},{n:17,en:"Al-Isra",ar:"الإسراء",ay:111,t:"Meccan"},{n:18,en:"Al-Kahf",ar:"الكهف",ay:110,t:"Meccan"},{n:19,en:"Maryam",ar:"مريم",ay:98,t:"Meccan"},{n:20,en:"Taha",ar:"طه",ay:135,t:"Meccan"},{n:21,en:"Al-Anbiya",ar:"الأنبياء",ay:112,t:"Meccan"},{n:22,en:"Al-Hajj",ar:"الحج",ay:78,t:"Medinan"},{n:23,en:"Al-Mu'minun",ar:"المؤمنون",ay:118,t:"Meccan"},{n:24,en:"An-Nur",ar:"النور",ay:64,t:"Medinan"},{n:25,en:"Al-Furqan",ar:"الفرقان",ay:77,t:"Meccan"},{n:26,en:"Ash-Shu'ara",ar:"الشعراء",ay:227,t:"Meccan"},{n:27,en:"An-Naml",ar:"النمل",ay:93,t:"Meccan"},{n:28,en:"Al-Qasas",ar:"القصص",ay:88,t:"Meccan"},{n:29,en:"Al-Ankabut",ar:"العنكبوت",ay:69,t:"Meccan"},{n:30,en:"Ar-Rum",ar:"الروم",ay:60,t:"Meccan"},{n:31,en:"Luqman",ar:"لقمان",ay:34,t:"Meccan"},{n:32,en:"As-Sajdah",ar:"السجدة",ay:30,t:"Meccan"},{n:33,en:"Al-Ahzab",ar:"الأحزاب",ay:73,t:"Medinan"},{n:34,en:"Saba",ar:"سبأ",ay:54,t:"Meccan"},{n:35,en:"Fatir",ar:"فاطر",ay:45,t:"Meccan"},{n:36,en:"Ya-Sin",ar:"يس",ay:83,t:"Meccan"},{n:37,en:"As-Saffat",ar:"الصافات",ay:182,t:"Meccan"},{n:38,en:"Sad",ar:"ص",ay:88,t:"Meccan"},{n:39,en:"Az-Zumar",ar:"الزمر",ay:75,t:"Meccan"},{n:40,en:"Ghafir",ar:"غافر",ay:85,t:"Meccan"},{n:41,en:"Fussilat",ar:"فصلت",ay:54,t:"Meccan"},{n:42,en:"Ash-Shura",ar:"الشورى",ay:53,t:"Meccan"},{n:43,en:"Az-Zukhruf",ar:"الزخرف",ay:89,t:"Meccan"},{n:44,en:"Ad-Dukhan",ar:"الدخان",ay:59,t:"Meccan"},{n:45,en:"Al-Jathiyah",ar:"الجاثية",ay:37,t:"Meccan"},{n:46,en:"Al-Ahqaf",ar:"الأحقاف",ay:35,t:"Meccan"},{n:47,en:"Muhammad",ar:"محمد",ay:38,t:"Medinan"},{n:48,en:"Al-Fath",ar:"الفتح",ay:29,t:"Medinan"},{n:49,en:"Al-Hujurat",ar:"الحجرات",ay:18,t:"Medinan"},{n:50,en:"Qaf",ar:"ق",ay:45,t:"Meccan"},{n:51,en:"Adh-Dhariyat",ar:"الذاريات",ay:60,t:"Meccan"},{n:52,en:"At-Tur",ar:"الطور",ay:49,t:"Meccan"},{n:53,en:"An-Najm",ar:"النجم",ay:62,t:"Meccan"},{n:54,en:"Al-Qamar",ar:"القمر",ay:55,t:"Meccan"},{n:55,en:"Ar-Rahman",ar:"الرحمن",ay:78,t:"Medinan"},{n:56,en:"Al-Waqi'ah",ar:"الواقعة",ay:96,t:"Meccan"},{n:57,en:"Al-Hadid",ar:"الحديد",ay:29,t:"Medinan"},{n:58,en:"Al-Mujadila",ar:"المجادلة",ay:22,t:"Medinan"},{n:59,en:"Al-Hashr",ar:"الحشر",ay:24,t:"Medinan"},{n:60,en:"Al-Mumtahanah",ar:"الممتحنة",ay:13,t:"Medinan"},{n:61,en:"As-Saf",ar:"الصف",ay:14,t:"Medinan"},{n:62,en:"Al-Jumu'ah",ar:"الجمعة",ay:11,t:"Medinan"},{n:63,en:"Al-Munafiqun",ar:"المنافقون",ay:11,t:"Medinan"},{n:64,en:"At-Taghabun",ar:"التغابن",ay:18,t:"Medinan"},{n:65,en:"At-Talaq",ar:"الطلاق",ay:12,t:"Medinan"},{n:66,en:"At-Tahrim",ar:"التحريم",ay:12,t:"Medinan"},{n:67,en:"Al-Mulk",ar:"الملك",ay:30,t:"Meccan"},{n:68,en:"Al-Qalam",ar:"القلم",ay:52,t:"Meccan"},{n:69,en:"Al-Haqqah",ar:"الحاقة",ay:52,t:"Meccan"},{n:70,en:"Al-Ma'arij",ar:"المعارج",ay:44,t:"Meccan"},{n:71,en:"Nuh",ar:"نوح",ay:28,t:"Meccan"},{n:72,en:"Al-Jinn",ar:"الجن",ay:28,t:"Meccan"},{n:73,en:"Al-Muzzammil",ar:"المزمل",ay:20,t:"Meccan"},{n:74,en:"Al-Muddathir",ar:"المدثر",ay:56,t:"Meccan"},{n:75,en:"Al-Qiyamah",ar:"القيامة",ay:40,t:"Meccan"},{n:76,en:"Al-Insan",ar:"الإنسان",ay:31,t:"Medinan"},{n:77,en:"Al-Mursalat",ar:"المرسلات",ay:50,t:"Meccan"},{n:78,en:"An-Naba",ar:"النبأ",ay:40,t:"Meccan"},{n:79,en:"An-Nazi'at",ar:"النازعات",ay:46,t:"Meccan"},{n:80,en:"Abasa",ar:"عبس",ay:42,t:"Meccan"},{n:81,en:"At-Takwir",ar:"التكوير",ay:29,t:"Meccan"},{n:82,en:"Al-Infitar",ar:"الانفطار",ay:19,t:"Meccan"},{n:83,en:"Al-Mutaffifin",ar:"المطففين",ay:36,t:"Meccan"},{n:84,en:"Al-Inshiqaq",ar:"الانشقاق",ay:25,t:"Meccan"},{n:85,en:"Al-Buruj",ar:"البروج",ay:22,t:"Meccan"},{n:86,en:"At-Tariq",ar:"الطارق",ay:17,t:"Meccan"},{n:87,en:"Al-A'la",ar:"الأعلى",ay:19,t:"Meccan"},{n:88,en:"Al-Ghashiyah",ar:"الغاشية",ay:26,t:"Meccan"},{n:89,en:"Al-Fajr",ar:"الفجر",ay:30,t:"Meccan"},{n:90,en:"Al-Balad",ar:"البلد",ay:20,t:"Meccan"},{n:91,en:"Ash-Shams",ar:"الشمس",ay:15,t:"Meccan"},{n:92,en:"Al-Lail",ar:"الليل",ay:21,t:"Meccan"},{n:93,en:"Ad-Duha",ar:"الضحى",ay:11,t:"Meccan"},{n:94,en:"Ash-Sharh",ar:"الشرح",ay:8,t:"Meccan"},{n:95,en:"At-Tin",ar:"التين",ay:8,t:"Meccan"},{n:96,en:"Al-Alaq",ar:"العلق",ay:19,t:"Meccan"},{n:97,en:"Al-Qadr",ar:"القدر",ay:5,t:"Meccan"},{n:98,en:"Al-Bayyinah",ar:"البينة",ay:8,t:"Medinan"},{n:99,en:"Az-Zalzalah",ar:"الزلزلة",ay:8,t:"Medinan"},{n:100,en:"Al-Adiyat",ar:"العاديات",ay:11,t:"Meccan"},{n:101,en:"Al-Qari'ah",ar:"القارعة",ay:11,t:"Meccan"},{n:102,en:"At-Takathur",ar:"التكاثر",ay:8,t:"Meccan"},{n:103,en:"Al-Asr",ar:"العصر",ay:3,t:"Meccan"},{n:104,en:"Al-Humazah",ar:"الهمزة",ay:9,t:"Meccan"},{n:105,en:"Al-Fil",ar:"الفيل",ay:5,t:"Meccan"},{n:106,en:"Quraysh",ar:"قريش",ay:4,t:"Meccan"},{n:107,en:"Al-Ma'un",ar:"الماعون",ay:7,t:"Meccan"},{n:108,en:"Al-Kawthar",ar:"الكوثر",ay:3,t:"Meccan"},{n:109,en:"Al-Kafirun",ar:"الكافرون",ay:6,t:"Meccan"},{n:110,en:"An-Nasr",ar:"النصر",ay:3,t:"Medinan"},{n:111,en:"Al-Masad",ar:"المسد",ay:5,t:"Meccan"},{n:112,en:"Al-Ikhlas",ar:"الإخلاص",ay:4,t:"Meccan"},{n:113,en:"Al-Falaq",ar:"الفلق",ay:5,t:"Meccan"},{n:114,en:"An-Nas",ar:"الناس",ay:6,t:"Meccan"}];
+var DUAS=[{l:"Before Eating",ar:"بِسْمِ اللَّهِ وَبَرَكَةِ اللَّهِ",ur:"اللہ کے نام سے اور اللہ کی برکت سے",en:"In the name of Allah and with the blessings of Allah",au:"https://archive.org/download/islamic-dua-in-audio/dua-before-eating.mp3"},{l:"After Eating",ar:"الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ",ur:"تمام تعریفیں اللہ کے لیے ہیں جس نے مجھے یہ کھلایا اور بغیر میری طاقت کے رزق دیا",en:"All praise is due to Allah who fed me this without any power from me",au:"https://archive.org/download/islamic-dua-in-audio/dua-after-eating.mp3"},{l:"Before Sleeping",ar:"بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",ur:"اے اللہ! تیرے نام سے مرتا ہوں اور جیتا ہوں",en:"In Your name, O Allah, I die and I live",au:"https://archive.org/download/islamic-dua-in-audio/dua-before-sleeping.mp3"},{l:"After Waking Up",ar:"الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",ur:"تمام تعریفیں اللہ کے لیے جس نے ہمیں مارنے کے بعد زندہ کیا",en:"All praise is for Allah who gave us life after death and unto Him is the resurrection",au:"https://archive.org/download/islamic-dua-in-audio/dua-after-waking-up-from-sleep.mp3"},{l:"Entering the Masjid",ar:"اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ",ur:"اے اللہ! میرے لیے اپنی رحمت کے دروازے کھول دے",en:"O Allah, open the gates of Your mercy for me",au:"https://archive.org/download/islamic-dua-in-audio/dua-for-entering-masjid.mp3"},{l:"Leaving the Masjid",ar:"اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ",ur:"اے اللہ! میں تجھ سے تیرا فضل مانگتا ہوں",en:"O Allah, I ask You from Your favor",au:"https://archive.org/download/islamic-dua-in-audio/dua-for-exiting-masjid.mp3"},{l:"Before Wudu",ar:"بِسْمِ اللَّهِ",ur:"اللہ کے نام سے",en:"In the name of Allah",au:""},{l:"After Wudu",ar:"أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ",ur:"میں گواہی دیتا ہوں کہ اللہ کے سوا کوئی معبود نہیں اور محمد ﷺ اس کے بندے اور رسول ہیں",en:"I bear witness that none has the right to be worshipped except Allah alone, and Muhammad is His servant and Messenger",au:"https://archive.org/download/islamic-dua-in-audio/dua-after-wudu.mp3"},{l:"Entering the House",ar:"بِسْمِ اللَّهِ وَلَجْنَا وَبِسْمِ اللَّهِ خَرَجْنَا وَعَلَى رَبِّنَا تَوَكَّلْنَا",ur:"اللہ کے نام سے ہم داخل ہوئے اور اللہ کے نام سے ہم نکلے اور اپنے رب پر توکل کیا",en:"In the name of Allah we enter and leave, and upon our Lord we place our trust",au:"https://archive.org/download/islamic-dua-in-audio/dua-for-entering-house.mp3"},{l:"Leaving the House",ar:"بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",ur:"اللہ کے نام سے، میں نے اللہ پر بھروسہ کیا، اللہ کے بغیر کوئی طاقت نہیں",en:"In the name of Allah, I place my trust in Allah, there is no power except with Allah",au:"https://archive.org/download/islamic-dua-in-audio/dua-for-leaving-home.mp3"},{l:"Before Travelling",ar:"سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ",ur:"پاک ہے وہ ذات جس نے ہمارے لیے اسے مسخر کیا",en:"Glory to Him who has subjected this to us",au:"https://archive.org/download/islamic-dua-in-audio/dua-for-traveling.mp3"},{l:"Dua for Parents",ar:"رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا",ur:"اے میرے رب! ان دونوں پر رحم فرما جیسا کہ انہوں نے مجھے بچپن میں پالا",en:"My Lord, have mercy upon them as they brought me up when I was small",au:"https://archive.org/download/islamic-dua-in-audio/dua-for-parents.mp3"},{l:"Seeking Forgiveness",ar:"أَسْتَغْفِرُ اللَّهَ الَّذِي لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ",ur:"میں اللہ سے مغفرت مانگتا ہوں جس کے سوا کوئی معبود نہیں",en:"I seek forgiveness from Allah, there is no deity except Him, the Ever-Living",au:"https://archive.org/download/islamic-dua-in-audio/dua-for-forgiveness.mp3"},{l:"Morning Dhikr",ar:"أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ",ur:"ہم نے صبح کی اور ساری بادشاہی اللہ کی ہے",en:"We have reached the morning and the dominion belongs to Allah",au:"https://archive.org/download/islamic-dua-in-audio/dua-in-the-morning.mp3"},{l:"Evening Dhikr",ar:"أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ",ur:"ہم نے شام کی اور ساری بادشاہی اللہ کی ہے",en:"We have reached the evening and the dominion belongs to Allah",au:"https://archive.org/download/islamic-dua-in-audio/dua-in-the-evening.mp3"},{l:"Entering Bathroom",ar:"اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ",ur:"اے اللہ! میں تیری پناہ مانگتا ہوں ناپاک جنوں سے",en:"O Allah, I seek refuge in You from evil spirits",au:"https://archive.org/download/islamic-dua-in-audio/dua-before-entering-the-toilet.mp3"},{l:"Istikhara",ar:"اللَّهُمَّ إِنِّي أَسْتَخِيرُكَ بِعِلْمِكَ وَأَسْتَقْدِرُكَ بِقُدْرَتِكَ",ur:"اے اللہ! میں تیرے علم سے خیر مانگتا ہوں اور تیری قدرت سے طاقت مانگتا ہوں",en:"O Allah, I seek Your guidance through Your knowledge and ability through Your power",au:"https://archive.org/download/islamic-dua-in-audio/dua-istikhara.mp3"}];
+
+// NAV
+function go(pg){document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});$('pg-'+pg).classList.add('active');$('backBtn').style.display=pg==='home'?'none':'flex';window.scrollTo(0,0);if(pg==='quran'&&!fqInit){fqLoad(1);fqInit=true}if(pg==='duas')renderDuas();if(pg==='surah')svRenderList(SURAHS);if(pg==='azkar')renderAzkar()}
+window.go=go;
+$('navHome').addEventListener('click',function(){go('home')});
+$('backBtn').addEventListener('click',function(){go('home')});
+
+// HOME CARDS
+$('homeGrid').innerHTML='<div class="hcard" data-pg="quran"><div class="hcard-ico q">📖</div><h3>Complete Quran</h3><p>Full page-by-page Mushaf view with continuous audio playback and page navigation</p><div class="hcard-ar">القرآن الکریم</div></div><div class="hcard" data-pg="surah"><div class="hcard-ico s">📋</div><h3>Surah by Surah</h3><p>Select any Surah, read with Urdu translation, play verse by verse</p><div class="hcard-ar">سورة بہ سورة</div></div><div class="hcard" data-pg="duas"><div class="hcard-ico d">🤲</div><h3>Masnoon Duas</h3><p>Authentic daily duas with audio playback, Arabic, Urdu & English</p><div class="hcard-ar">مسنون دعائیں</div></div><div class="hcard" data-pg="azkar"><div class="hcard-ico d">📿</div><h3>Dhikr & Azkar</h3><p>After Namaz, morning, evening & bedtime Azkar with counts and audio</p><div class="hcard-ar">اذکار و تسبیحات</div></div><div class="hcard" data-pg="qibla"><div class="hcard-ico qb">🧭</div><h3>Qibla Direction</h3><p>Find the exact direction of Kaaba from your location</p><div class="hcard-ar">قبلہ کی سمت</div></div><div class="hcard" data-pg="namaz"><div class="hcard-ico n">🕌</div><h3>Namaz Timings</h3><p>Accurate prayer times — Fajr, Dhuhr, Asr, Maghrib, Isha</p><div class="hcard-ar">نماز کے اوقات</div></div>';
+$('homeGrid').querySelectorAll('.hcard').forEach(function(c){c.addEventListener('click',function(){go(c.dataset.pg)})});
+
+// AUDIO
+var aud=new Audio(),arVs=[],urVs=[],auVs=[],pIdx=-1,playing=false,rpMode=false,contPlay=false,curLabel='';
+function startV(i){if(i<0||i>=auVs.length){stopA();return}document.querySelectorAll('.v.pl').forEach(function(e){e.classList.remove('pl')});pIdx=i;aud.pause();aud.src=auVs[i].audio;aud.load();aud.play().catch(function(){});playing=true;updP();var el=$('v-'+i);if(el){el.classList.add('pl');el.scrollIntoView({behavior:'smooth',block:'center'})}$('pbar').classList.add('vis')}
+aud.addEventListener('ended',function(){if(rpMode){aud.currentTime=0;aud.play()}else if(contPlay&&pIdx<auVs.length-1)startV(pIdx+1);else{playing=false;updP();document.querySelectorAll('.v.pl').forEach(function(e){e.classList.remove('pl')})}});
+aud.addEventListener('timeupdate',function(){if(aud.duration){$('progFill').style.width=(aud.currentTime/aud.duration*100)+'%';$('pTime').textContent=fmt(aud.currentTime)+' / '+fmt(aud.duration)}});
+function stopA(){aud.pause();aud.src='';playing=false;pIdx=-1;contPlay=false;document.querySelectorAll('.v.pl').forEach(function(e){e.classList.remove('pl')});$('pbar').classList.remove('vis');$('progFill').style.width='0%';updP()}
+function updP(){$('ppIco').innerHTML=playing?'<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>':'<polygon points="5,3 19,12 5,21"/>';if(curLabel)$('pSurah').textContent=curLabel;if(pIdx>=0&&arVs[pIdx])$('pVerse').textContent='Ayah '+(arVs[pIdx].numberInSurah||pIdx+1)}
+function fmt(s){var m=Math.floor(s/60),sc=Math.floor(s%60);return m+':'+(sc<10?'0':'')+sc}
+$('ppBtn').addEventListener('click',function(){if(!auVs.length)return;if(pIdx===-1){contPlay=true;startV(0);return}if(playing){aud.pause();playing=false}else{aud.play();playing=true}updP()});
+$('prevBtn').addEventListener('click',function(){if(pIdx>0)startV(pIdx-1)});
+$('nextBtn').addEventListener('click',function(){if(pIdx<auVs.length-1)startV(pIdx+1)});
+$('rpBtn').addEventListener('click',function(){rpMode=!rpMode;$('rpBtn').classList.toggle('on',rpMode)});
+$('progBar').addEventListener('click',function(e){if(!aud.duration)return;var r=e.currentTarget.getBoundingClientRect();aud.currentTime=(e.clientX-r.left)/r.width*aud.duration});
+
+function bindVBtns(container){container.querySelectorAll('.v-pb').forEach(function(b){b.addEventListener('click',function(){contPlay=true;startV(+b.dataset.vi)})})}
+
+// FULL QURAN
+var fqPage=1,fqInit=false;
+function fqLoad(pg){if(pg<1||pg>604)return;fqPage=pg;$('fqPageNum').textContent='Page '+pg+' / 604';$('fqGoPage').value=pg;$('fqPrev').disabled=pg<=1;$('fqNext').disabled=pg>=604;var body=$('fqBody');body.innerHTML='<div class="ld"><div class="spin"></div><div class="ld-t">Loading page '+pg+'...</div></div>';stopA();var q=$('fqQari').value;
+Promise.all([fetch(API+'/page/'+pg+'/quran-uthmani').then(function(r){return r.json()}),fetch(API+'/page/'+pg+'/ur.jalandhry').then(function(r){return r.json()}),fetch(API+'/page/'+pg+'/'+q).then(function(r){return r.json()})]).then(function(res){
+if(res[0].code!==200)throw new Error('API error');arVs=res[0].data.ayahs;urVs=res[1].data.ayahs;auVs=res[2].data.ayahs;curLabel='Page '+pg;
+var h='<div class="pab"><button class="pa-btn" id="fqPA"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg> Play Page</button><button class="st-btn" id="fqST"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="1"/></svg> Stop</button></div>';
+for(var i=0;i<arVs.length;i++){var v=arVs[i],ur=urVs[i]?urVs[i].text:'';if(v.numberInSurah===1&&v.surah.number!==1&&v.surah.number!==9)h+='<div class="bsm">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</div>';if(v.numberInSurah===1)h+='<div style="text-align:center;color:var(--g);font-family:Scheherazade New,serif;font-size:1.1rem;margin:.7rem 0">'+v.surah.name+' — '+v.surah.englishName+'</div>';h+='<div class="v" id="v-'+i+'"><div class="v-top"><div class="v-num">'+v.surah.number+':'+v.numberInSurah+'</div><button class="v-pb" data-vi="'+i+'"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></button></div><div class="atxt">'+v.text+'</div><div class="utxt">'+ur+'</div></div>'}
+body.innerHTML=h;$('fqPA').addEventListener('click',function(){contPlay=true;startV(0)});$('fqST').addEventListener('click',stopA);bindVBtns(body);window.scrollTo(0,0)}).catch(function(e){body.innerHTML='<div class="err"><b>Could not load</b><br>'+e.message+'<br><br>Open this file in your browser</div>'});}
+$('fqPrev').addEventListener('click',function(){fqLoad(fqPage-1)});
+$('fqNext').addEventListener('click',function(){fqLoad(fqPage+1)});
+$('fqGoPage').addEventListener('change',function(){var p=parseInt(this.value);if(p>=1&&p<=604)fqLoad(p)});
+$('fqQari').addEventListener('change',function(){fqLoad(fqPage)});
+
+// SURAH VIEW
+var svCur=null;
+function svRenderList(list){var sl=$('svList');var h='';for(var i=0;i<list.length;i++){var s=list[i];h+='<div class="si'+(svCur&&svCur.n===s.n?' act':'')+'" data-n="'+s.n+'"><div class="si-n"><span>'+s.n+'</span></div><div class="si-i"><h3>'+s.en+'</h3><p>'+s.t+' · '+s.ay+'</p></div><div class="si-a">'+s.ar+'</div></div>'}sl.innerHTML=h;sl.querySelectorAll('.si').forEach(function(el){el.addEventListener('click',function(){svLoad(+el.dataset.n)})})}
+$('svSearch').addEventListener('input',function(){var q=this.value.toLowerCase();svRenderList(SURAHS.filter(function(s){return s.en.toLowerCase().indexOf(q)!==-1||s.ar.indexOf(q)!==-1||String(s.n)===q}))});
+function svLoad(num){stopA();svCur=null;for(var i=0;i<SURAHS.length;i++){if(SURAHS[i].n===num){svCur=SURAHS[i];break}}if(!svCur)return;svRenderList(SURAHS);$('svSb').classList.remove('open');$('svOv').classList.remove('open');var mc=$('svMc');mc.innerHTML='<div class="ld"><div class="spin"></div><div class="ld-t">Loading '+svCur.en+'...</div></div>';var q=$('fqQari').value;curLabel=svCur.en+' — '+svCur.ar;
+Promise.all([fetch(API+'/surah/'+num+'/quran-uthmani').then(function(r){return r.json()}),fetch(API+'/surah/'+num+'/ur.jalandhry').then(function(r){return r.json()}),fetch(API+'/surah/'+num+'/'+q).then(function(r){return r.json()})]).then(function(res){
+if(res[0].code!==200)throw new Error('API error');arVs=res[0].data.ayahs;urVs=res[1].data.ayahs;auVs=res[2].data.ayahs;var s=svCur;
+var h='<button class="sv-mt" id="svM2" style="margin-bottom:.8rem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>';
+h+='<div class="sh"><div class="sh-ar">'+s.ar+'</div><div class="sh-en">'+s.en+'</div><div class="sh-m"><span>Surah '+s.n+'</span><span>'+s.t+'</span><span>'+s.ay+' Ayahs</span></div></div>';
+if(s.n!==1&&s.n!==9)h+='<div class="bsm">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ</div>';
+h+='<div class="pab"><button class="pa-btn" id="svPA"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg> Play Surah</button><button class="st-btn" id="svST"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="1"/></svg> Stop</button></div>';
+for(var i=0;i<arVs.length;i++){var v=arVs[i],ur=urVs[i]?urVs[i].text:'';h+='<div class="v" id="v-'+i+'"><div class="v-top"><div class="v-num">'+v.numberInSurah+'</div><button class="v-pb" data-vi="'+i+'"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></button></div><div class="atxt">'+v.text+'</div><div class="utxt">'+ur+'</div></div>'}
+mc.innerHTML=h;$('svPA').addEventListener('click',function(){contPlay=true;startV(0)});$('svST').addEventListener('click',stopA);bindVBtns(mc);if($('svM2'))$('svM2').addEventListener('click',function(){$('svSb').classList.toggle('open');$('svOv').classList.toggle('open')})}).catch(function(e){mc.innerHTML='<div class="err">'+e.message+'<br>Open in browser</div>'})}
+$('svMenuBtn').addEventListener('click',function(){$('svSb').classList.toggle('open');$('svOv').classList.toggle('open')});
+$('svOv').addEventListener('click',function(){$('svSb').classList.remove('open');$('svOv').classList.remove('open')});
+svRenderList(SURAHS);
+
+// DUAS with authentic audio playback
+var duasR=false,duaAud=new Audio(),duaPlaying=false,duaCurrentBtn=null;
+function playDuaAudio(url,arText,btn){
+  // Stop if already playing this one
+  if(duaCurrentBtn===btn&&duaPlaying){duaAud.pause();duaAud.src='';duaPlaying=false;btn.classList.remove('speaking');btn.closest('.dua-card').classList.remove('dua-playing');duaCurrentBtn=null;return}
+  // Stop any previous
+  if(duaCurrentBtn){duaCurrentBtn.classList.remove('speaking');duaCurrentBtn.closest('.dua-card').classList.remove('dua-playing')}
+  duaCurrentBtn=btn;
+  btn.classList.add('speaking');btn.closest('.dua-card').classList.add('dua-playing');
+
+  if(url){
+    // Use authentic mp3 audio
+    duaAud.pause();duaAud.src=url;duaAud.load();
+    duaAud.play().catch(function(){
+      // Fallback to speech synthesis if audio fails
+      fallbackSpeak(arText,btn);
+    });
+    duaPlaying=true;
+    duaAud.onended=function(){btn.classList.remove('speaking');btn.closest('.dua-card').classList.remove('dua-playing');duaPlaying=false;duaCurrentBtn=null};
+    duaAud.onerror=function(){fallbackSpeak(arText,btn)};
+  }else{
+    fallbackSpeak(arText,btn);
+  }
+}
+function fallbackSpeak(text,btn){
+  if(!window.speechSynthesis)return;
+  var u=new SpeechSynthesisUtterance(text);u.lang='ar-SA';u.rate=0.8;
+  var voices=speechSynthesis.getVoices();for(var i=0;i<voices.length;i++){if(voices[i].lang.indexOf('ar')!==-1){u.voice=voices[i];break}}
+  u.onend=function(){btn.classList.remove('speaking');btn.closest('.dua-card').classList.remove('dua-playing');duaPlaying=false;duaCurrentBtn=null};
+  u.onerror=u.onend;
+  speechSynthesis.speak(u);duaPlaying=true;
+}
+function renderDuas(){if(duasR)return;duasR=true;var h='<div class="duas-title">مسنون دعائیں</div><div class="duas-sub">Authentic Daily Duas — Tap ▶ to listen</div>';for(var i=0;i<DUAS.length;i++){var d=DUAS[i];h+='<div class="dua-card" id="dua-'+i+'"><div class="dua-top"><div class="dua-label">'+d.l+'</div><button class="dua-play" data-di="'+i+'"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></button></div><div class="dua-ar">'+d.ar+'</div><div class="dua-ur">'+d.ur+'</div><div class="dua-en">'+d.en+'</div>'+(d.c?'<div class="dua-count">Repeat: <span>'+d.c+'x</span></div>':'')+'</div>'}$('duasWrap').innerHTML=h;
+  $('duasWrap').querySelectorAll('.dua-play').forEach(function(b){b.addEventListener('click',function(){var d=DUAS[+b.dataset.di];playDuaAudio(d.au,d.ar,b)})})}
+
+// AZKAR DATA
+var AZKAR={
+"After Namaz":[
+  {ar:"أَسْتَغْفِرُ اللَّهَ",ur:"میں اللہ سے مغفرت مانگتا ہوں",en:"I seek forgiveness from Allah",c:3},
+  {ar:"اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ",ur:"اے اللہ! تو سلامتی والا ہے اور تجھ سے ہی سلامتی ہے، بابرکت ہے تو اے عظمت اور بزرگی والے",en:"O Allah, You are Peace and from You is peace. Blessed are You, O Possessor of Glory and Honor",c:1},
+  {ar:"سُبْحَانَ اللَّهِ",ur:"اللہ پاک ہے",en:"Glory be to Allah",c:33},
+  {ar:"الْحَمْدُ لِلَّهِ",ur:"تمام تعریفیں اللہ کے لیے ہیں",en:"All praise is for Allah",c:33},
+  {ar:"اللَّهُ أَكْبَرُ",ur:"اللہ سب سے بڑا ہے",en:"Allah is the Greatest",c:33},
+  {ar:"لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",ur:"اللہ کے سوا کوئی معبود نہیں، وہ اکیلا ہے، اس کا کوئی شریک نہیں، بادشاہی اسی کی ہے اور تعریف اسی کی ہے اور وہ ہر چیز پر قادر ہے",en:"None has the right to be worshipped except Allah, alone, without partner. His is the dominion and His is the praise, and He is over all things competent",c:1},
+  {ar:"آيَةُ الْكُرْسِيِّ",ur:"آیت الکرسی پڑھیں",en:"Recite Ayat al-Kursi (2:255)",c:1},
+  {ar:"قُلْ هُوَ ٱللَّهُ أَحَدٌ",ur:"سورۃ الإخلاص پڑھیں",en:"Recite Surah Al-Ikhlas",c:3},
+  {ar:"قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ",ur:"سورۃ الفلق پڑھیں",en:"Recite Surah Al-Falaq",c:3},
+  {ar:"قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ",ur:"سورۃ الناس پڑھیں",en:"Recite Surah An-Nas",c:3}
+],
+"Morning (صباح)":[
+  {ar:"أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ",ur:"ہم نے صبح کی اور ساری بادشاہی اللہ کی ہے اور تمام تعریفیں اللہ کے لیے ہیں، اللہ کے سوا کوئی معبود نہیں",en:"We have reached the morning and the dominion belongs to Allah, and all praise is for Allah. None has the right to be worshipped except Allah alone",c:1},
+  {ar:"اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ",ur:"اے اللہ! تیرے ساتھ ہم نے صبح کی اور تیرے ساتھ شام کی، تیرے ساتھ جیتے ہیں اور تیرے ساتھ مرتے ہیں",en:"O Allah, by Your leave we have reached the morning and by Your leave we reach the evening, by Your leave we live and die and unto You is the resurrection",c:1},
+  {ar:"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",ur:"اللہ پاک ہے اور اس کی تعریف کے ساتھ",en:"Glory is to Allah and praise is to Him",c:100},
+  {ar:"لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",ur:"اللہ کے سوا کوئی معبود نہیں وہ اکیلا ہے",en:"None has the right to be worshipped except Allah alone, without partner",c:10},
+  {ar:"اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ",ur:"اے اللہ! میں تجھ سے دنیا اور آخرت میں عافیت مانگتا ہوں",en:"O Allah, I ask You for well-being in this world and the next",c:1},
+  {ar:"بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ",ur:"اللہ کے نام سے جس کے نام کے ساتھ زمین و آسمان میں کوئی چیز نقصان نہیں دے سکتی",en:"In the name of Allah with whose name nothing is harmed on earth nor in the heavens",c:3}
+],
+"Evening (مساء)":[
+  {ar:"أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ",ur:"ہم نے شام کی اور ساری بادشاہی اللہ کی ہے",en:"We have reached the evening and the dominion belongs to Allah",c:1},
+  {ar:"اللَّهُمَّ بِكَ أَمْسَيْنَا وَبِكَ أَصْبَحْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ الْمَصِيرُ",ur:"اے اللہ! تیرے ساتھ ہم نے شام کی اور تیرے ساتھ صبح کی",en:"O Allah, by Your leave we have reached the evening, by Your leave we reach the morning, by Your leave we live and die and unto You is the return",c:1},
+  {ar:"أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",ur:"میں اللہ کے مکمل کلمات کی پناہ لیتا ہوں ہر مخلوق کے شر سے",en:"I seek refuge in the perfect words of Allah from the evil of what He has created",c:3},
+  {ar:"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",ur:"اللہ پاک ہے اور اس کی تعریف کے ساتھ",en:"Glory is to Allah and praise is to Him",c:100},
+  {ar:"اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ",ur:"اے اللہ! میں تیری پناہ مانگتا ہوں فکر اور غم سے",en:"O Allah, I seek refuge in You from anxiety and sorrow",c:1}
+],
+"Before Sleep":[
+  {ar:"بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",ur:"اے اللہ! تیرے نام سے مرتا ہوں اور جیتا ہوں",en:"In Your name, O Allah, I die and I live",c:1},
+  {ar:"اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ",ur:"اے اللہ مجھے اس دن کے عذاب سے بچا جب تو اپنے بندوں کو اٹھائے گا",en:"O Allah, protect me from Your punishment on the day You resurrect Your servants",c:3},
+  {ar:"سُبْحَانَ اللَّهِ",ur:"اللہ پاک ہے",en:"Glory be to Allah",c:33},
+  {ar:"الْحَمْدُ لِلَّهِ",ur:"تمام تعریفیں اللہ کے لیے ہیں",en:"All praise is for Allah",c:33},
+  {ar:"اللَّهُ أَكْبَرُ",ur:"اللہ سب سے بڑا ہے",en:"Allah is the Greatest",c:34}
+],
+"General Dhikr":[
+  {ar:"لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",ur:"اللہ کے بغیر نہ کوئی طاقت ہے نہ قوت",en:"There is no power nor strength except with Allah",c:0},
+  {ar:"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ سُبْحَانَ اللَّهِ الْعَظِيمِ",ur:"اللہ پاک ہے اپنی تعریف کے ساتھ، اللہ عظمت والا پاک ہے",en:"Glory be to Allah and His is the praise, glory be to Allah the Almighty",c:0},
+  {ar:"لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ",ur:"تیرے سوا کوئی معبود نہیں، تو پاک ہے، بے شک میں ظالموں میں سے تھا",en:"None has the right to be worshipped except You, glory be to You, indeed I have been of the wrongdoers",c:0},
+  {ar:"حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ",ur:"اللہ ہمیں کافی ہے اور وہ بہترین کارساز ہے",en:"Sufficient for us is Allah, and He is the best Disposer of affairs",c:0},
+  {ar:"اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ",ur:"اے اللہ! محمد ﷺ پر اور محمد ﷺ کی آل پر رحمت نازل فرما",en:"O Allah, send blessings upon Muhammad and the family of Muhammad",c:10}
+]};
+
+var azkR=false,azkCat='After Namaz';
+function renderAzkar(){
+  if(!azkR){azkR=true;
+    var tabs=$('azkTabs'),h='';var cats=Object.keys(AZKAR);
+    for(var i=0;i<cats.length;i++){h+='<button class="azk-tab'+(cats[i]===azkCat?' active':'')+'" data-cat="'+cats[i]+'">'+cats[i]+'</button>'}
+    tabs.innerHTML=h;
+    tabs.querySelectorAll('.azk-tab').forEach(function(t){t.addEventListener('click',function(){azkCat=t.dataset.cat;tabs.querySelectorAll('.azk-tab').forEach(function(x){x.classList.remove('active')});t.classList.add('active');renderAzkarBody()})})
+  }
+  renderAzkarBody();
+}
+function renderAzkarBody(){
+  var items=AZKAR[azkCat]||[];var h='<div class="duas-title" style="margin-top:1rem">'+azkCat+'</div><div class="duas-sub">اذکار و تسبیحات</div>';
+  for(var i=0;i<items.length;i++){var d=items[i];h+='<div class="dua-card" id="azk-'+i+'"><div class="dua-top"><div class="dua-label">'+azkCat+' #'+(i+1)+'</div><button class="dua-play" data-azk="'+i+'"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg></button></div><div class="dua-ar">'+d.ar+'</div><div class="dua-ur">'+d.ur+'</div><div class="dua-en">'+d.en+'</div>'+(d.c?'<div class="dua-count">Repeat: <span>'+d.c+'x</span></div>':'')+'</div>'}
+  $('azkBody').innerHTML=h;
+  $('azkBody').querySelectorAll('.dua-play').forEach(function(b){b.addEventListener('click',function(){var d=AZKAR[azkCat][+b.dataset.azk];playDuaAudio('',d.ar,b)})});
+}
+
+// QIBLA with real compass
+var qibBearing=null,qibHeading=0,qibWatchId=null;
+function calcQibla(lat,lng){
+  var kLat=21.4225,kLng=39.8262;
+  var dLng=(kLng-lng)*Math.PI/180,lat1=lat*Math.PI/180,lat2=kLat*Math.PI/180;
+  var y=Math.sin(dLng)*Math.cos(lat2),x=Math.cos(lat1)*Math.sin(lat2)-Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLng);
+  return(Math.atan2(y,x)*180/Math.PI+360)%360;
+}
+function updateCompass(heading){
+  qibHeading=heading;
+  if(qibBearing!==null){
+    // Rotate dial opposite to heading (so N always shows true north relative to device)
+    $('qiblaDial').style.transform='rotate('+ (-heading) +'deg)';
+    // Arrow points to qibla relative to device
+    var rel=(qibBearing-heading+360)%360;
+    $('qiblaArrow').style.transform='translate(-50%,-100%) rotate('+rel+'deg)';
+    $('qiblaDeg').textContent=Math.round(qibBearing)+'° from North';
+  }
+}
+function startCompass(){
+  // iOS 13+ requires permission
+  if(typeof DeviceOrientationEvent!=='undefined'&&typeof DeviceOrientationEvent.requestPermission==='function'){
+    DeviceOrientationEvent.requestPermission().then(function(response){
+      if(response==='granted'){
+        window.addEventListener('deviceorientation',function(e){
+          if(e.webkitCompassHeading!==undefined)updateCompass(e.webkitCompassHeading);
+          else if(e.alpha!==null)updateCompass(360-e.alpha);
+        });
+        $('qiblaInfo').textContent='Compass active — point your phone around';
+      }else{$('qiblaInfo').textContent='Compass permission denied. Showing static bearing.'}
+    }).catch(function(){$('qiblaInfo').textContent='Compass not available. Showing static bearing.'});
+  }else{
+    // Android / desktop
+    window.addEventListener('deviceorientationabsolute',function(e){
+      if(e.alpha!==null)updateCompass(360-e.alpha);
+    });
+    window.addEventListener('deviceorientation',function(e){
+      if(e.webkitCompassHeading!==undefined)updateCompass(e.webkitCompassHeading);
+      else if(e.absolute&&e.alpha!==null)updateCompass(360-e.alpha);
+      else if(e.alpha!==null)updateCompass(360-e.alpha);
+    });
+    $('qiblaInfo').textContent='Compass active — rotate your phone';
+  }
+}
+$('qiblaBtn').addEventListener('click',function(){
+  $('qiblaInfo').textContent='Detecting location...';
+  if(!navigator.geolocation){$('qiblaInfo').textContent='Geolocation not supported';return}
+  navigator.geolocation.getCurrentPosition(function(pos){
+    var lat=pos.coords.latitude,lng=pos.coords.longitude;
+    qibBearing=calcQibla(lat,lng);
+    // Set static arrow first
+    $('qiblaArrow').style.transform='translate(-50%,-100%) rotate('+qibBearing+'deg)';
+    $('qiblaDeg').textContent=Math.round(qibBearing)+'° from North';
+    $('qiblaInfo').textContent='Qibla bearing: '+Math.round(qibBearing)+'° — enabling compass...';
+    $('qiblaBtn').textContent='Refresh Location';
+    // Now start compass
+    startCompass();
+  },function(e){
+    $('qiblaInfo').textContent='Location denied: '+e.message;
+  },{enableHighAccuracy:true});
+});
+
+// NAMAZ
+$('namazBtn').addEventListener('click',function(){
+  $('namazLoc').textContent='Detecting location...';
+  if(!navigator.geolocation){$('namazLoc').textContent='Geolocation not supported';return}
+  navigator.geolocation.getCurrentPosition(function(pos){
+    var lat=pos.coords.latitude,lng=pos.coords.longitude;
+    var d=new Date(),ds=d.getDate()+'-'+(d.getMonth()+1)+'-'+d.getFullYear();
+    fetch('https://api.aladhan.com/v1/timings/'+ds+'?latitude='+lat+'&longitude='+lng+'&method=4').then(function(r){return r.json()}).then(function(data){
+      var t=data.data.timings,meta=data.data.meta;
+      $('namazLoc').textContent=meta.timezone+' — '+meta.method.name;
+      var times=[{n:'Fajr',a:'فجر',v:t.Fajr},{n:'Sunrise',a:'طلوع آفتاب',v:t.Sunrise},{n:'Dhuhr',a:'ظہر',v:t.Dhuhr},{n:'Asr',a:'عصر',v:t.Asr},{n:'Maghrib',a:'مغرب',v:t.Maghrib},{n:'Isha',a:'عشاء',v:t.Isha}];
+      var now=d.getHours()*60+d.getMinutes(),g=$('namazGrid'),h='';
+      for(var i=0;i<times.length;i++){var tm=times[i].v.split(' ')[0],pts=tm.split(':'),mins=parseInt(pts[0])*60+parseInt(pts[1]);var act=false;if(i<times.length-1){var nt=times[i+1].v.split(' ')[0].split(':');act=now>=mins&&now<parseInt(nt[0])*60+parseInt(nt[1])}else act=now>=mins;h+='<div class="ncard'+(act?' active':'')+'"><div><div class="ncard-name">'+times[i].n+'</div><div class="ncard-ar">'+times[i].a+'</div></div><div class="ncard-time">'+tm+'</div></div>'}
+      g.innerHTML=h;$('namazBtn').textContent='Refresh'}).catch(function(e){$('namazLoc').textContent='Error: '+e.message})
+  },function(e){$('namazLoc').textContent='Location denied: '+e.message})
+});
+
+// Default namaz placeholder
+$('namazGrid').innerHTML='<div class="ncard"><div><div class="ncard-name">Fajr</div><div class="ncard-ar">فجر</div></div><div class="ncard-time">--:--</div></div><div class="ncard"><div><div class="ncard-name">Sunrise</div><div class="ncard-ar">طلوع آفتاب</div></div><div class="ncard-time">--:--</div></div><div class="ncard"><div><div class="ncard-name">Dhuhr</div><div class="ncard-ar">ظہر</div></div><div class="ncard-time">--:--</div></div><div class="ncard"><div><div class="ncard-name">Asr</div><div class="ncard-ar">عصر</div></div><div class="ncard-time">--:--</div></div><div class="ncard"><div><div class="ncard-name">Maghrib</div><div class="ncard-ar">مغرب</div></div><div class="ncard-time">--:--</div></div><div class="ncard"><div><div class="ncard-name">Isha</div><div class="ncard-ar">عشاء</div></div><div class="ncard-time">--:--</div></div>';
+})();
+</script>
+</body>
+</html>
